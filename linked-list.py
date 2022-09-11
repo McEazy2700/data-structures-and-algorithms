@@ -74,19 +74,41 @@ class SLinkedList:
                 prev_node.next = curr_node.next
                 curr_node.next = None
                 return
-                
+
             prev_node = curr_node
             curr_node = curr_node.next
         raise ValueError(f'Node with value {value} does not extst.')
+
+    def reverse(self):
+        # list = 1 -> 2 -> 3 -> 4
+        # first we need the previous node to the current node. So the current node can point its next to it
+        # at first it will be None after which it will be set to current
+        # list = 1 -> None 2 -> 3 -> 4
+        # we need the current node. After transfering its next pointer to previous it will then be set to the following
+        # list = 2 -> 1 -> None
+        # we then need the node folowing the current node. It will then be set to the following.next if it exists
+        # we then repeat the process as long as current node is not None
+        prev_node = None
+        current_node = self.head
+        following_node = current_node.next
         
+        while current_node:
+            current_node.next = prev_node
+            prev_node = current_node
+            current_node = following_node
+            if following_node:
+                following_node = following_node.next
+        
+        self.head = prev_node
 
 list1 = SLinkedList(Node('First'))
 n2 = Node('node 2')
 list1.head.next = n2
-list1.insert_in_front('inserted')
+# list1.insert_in_front('inserted')
 list1.append('End element')
 list1.insert("yo I'm in NewYork", n2)
 # list1.delete('sec')
-list2 = SLinkedList(None)
-list2.delete('value')
+# list2 = SLinkedList(None)
+# list2.delete('value')
+list1.reverse()
 list1.print_list()
